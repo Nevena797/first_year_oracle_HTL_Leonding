@@ -322,3 +322,16 @@ WHERE JOB = 'CLERK'
 GROUP BY DEPTNO
 HAVING COUNT(*) >= 2;
     
+
+/*19.Gesucht ist der durchschnittliche Wert für Gehalt und Provision aller Mitarbeiter
+aus Abteilung 30*/
+
+SELECT SUM(SAL) SAL,
+SUM(COMM) COMM,
+SUM(SAL)+ SUM(COMM) GesamtGehalt,
+       SUM(SAL+COMM) GesamtGehalt2,
+       SUM(SAL + NVL(COMM, 0)) GesamtGehalt2 
+FROM EMP;
+ 
+SELECT AVG(SAL+NVL(COMM, 0)) DurschnittGehalt 
+FROM EMP WHERE DEPTNO = 30;    
