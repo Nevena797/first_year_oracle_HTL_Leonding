@@ -1,7 +1,7 @@
-/*Übung 7*/
+/*Ãœbung 7*/
 /*zu den Tennisclubtabellen */
 
-/*1. Ausgabe der Spielernamen, die sowohl für das Team 1 als auch für das
+/*1. Ausgabe der Spielernamen, die sowohl fÃ¼r das Team 1 als auch fÃ¼r das
 Team 2 gespielt haben*/
 
 SELECT * FROM PLAYERS;
@@ -73,7 +73,7 @@ SELECT PLAYERNO FROM MATCHES WHERE TEAMNO = 2
 
 ---SET OPERATOREN
 
-/*Diese Abfrage verwendet UNION statt INTERSECT und gibt Spieler zurück, die für Team 1 ODER Team 2 (oder beide) gespielt haben*/
+/*Diese Abfrage verwendet UNION statt INTERSECT und gibt Spieler zurÃ¼ck, die fÃ¼r Team 1 ODER Team 2 (oder beide) gespielt haben*/
 
 SELECT PL.PLAYERNO,
             PL.NAME,
@@ -85,9 +85,9 @@ UNION --SET OPERATOR
 SELECT PLAYERNO FROM MATCHES WHERE TEAMNO = 2
 );
 
-/*Diese Abfrage verwendet UNION ALL, wodurch alle Zeilen aus beiden Sätzen zurückgegeben werden, 
-einschließlich Duplikaten. 
-Dies bedeutet, dass die Nummer eines Spielers, der für beide Teams gespielt hat, zweimal im Ergebnissatz erscheint.*/
+/*Diese Abfrage verwendet UNION ALL, wodurch alle Zeilen aus beiden SÃ¤tzen zurÃ¼ckgegeben werden, 
+einschlieÃŸlich Duplikaten. 
+Dies bedeutet, dass die Nummer eines Spielers, der fÃ¼r beide Teams gespielt hat, zweimal im Ergebnissatz erscheint.*/
         
 SELECT PL.PLAYERNO,
         PL.NAME,
@@ -99,7 +99,80 @@ UNION ALL --SET OPERATOR
 SELECT PLAYERNO FROM MATCHES WHERE TEAMNO = 2
 );    
 
+/*02 NAME und INITIALS der Spieler, die 1980 keine Strafe erhalten haben */
 
+SELECT PL.NAME,PL.INITIALS FROM PLAYERS PL;
+SELECT * FROM PENALTIES;
+
+-- aber irgendwann eine Strafe bezahlt haben
+
+SELECT DISTINCT PL.NAME,
+                PL.INITIALS
+FROM PLAYERS PL
+JOIN PENALTIES PE
+ON PE.PLAYERNO = PL.PLAYERNO
+WHERE TO_CHAR(PE.PEN_DATE,'YYYY') <> 2000;
+            
+-- aber vielleicht nie eine Strafe bezahlt haben
+
+SELECT DISTINCT PL.NAME,
+                PL.INITIALS
+FROM PLAYERS PL
+LEFT JOIN PENALTIES PE
+ON PE.PLAYERNO= PL.PLAYERNO
+WHERE TO_CHAR(PE.PEN_DATE,'YYYY') <> 2000 OR PE.PEN_DATE IS NULL;
+
+
+SELECT DISTINCT PL.NAME,
+                PL.INITIALS
+FROM PLAYERS PL
+LEFT JOIN PENALTIES PE
+ON PL.PLAYERNO = PE.PLAYERNO
+WHERE (PE.PEN_DATE IS NULL
+OR EXTRACT(YEAR FROM PE.PEN_DATE) <> 2000); 
+
+SELECT DISTINCT 
+EXTRACT(YEAR FROM PEN_DATE) AS YEAR_ONLY
+FROM PENALTIES;
+
+/*
+3. Ausgabe der Spieler, die mindestens eine Strafe Ã¼ber $80 erhalten haben
+*/
+
+SELECT * FROM PLAYERS;
+SELECT * FROM PENALTIES;
+  
+SELECT * FROM PENALTIES
+WHERE AMOUNT > 80;
+           
+SELECT * 
+FROM PLAYERS PL
+JOIN PENALTIES PE
+ON PL.PLAYERNO = PE.PLAYERNO
+WHERE AMOUNT > 80;
+
+/*4. Ausgabe der Spieler, bei denen jede Strafe Ã¼ber $80 lag */
+
+SELECT PLAYERNO FROM PENALTIES
+WHERE AMOUNT > 80
+MINUS
+SELECT PLAYERNO FROM PENALTIES
+WHERE AMOUNT <= 80;
+
+SELECT PL.PLAYERNO,PL.NAME
+FROM PLAYERS PL
+JOIN PENALTIES PE
+ON PL.PLAYERNO = PE.PLAYERNO
+GROUP BY PL.PLAYERNO,PL.NAME
+HAVING MIN(PE.AMOUNT) > 80;
+
+
+SELECT PLAYERNO
+FROM PENALTIES
+WHERE PLAYERNO NOT IN (
+SELECT PLAYERNO FROM PENALTIES
+WHERE AMOUNT <= 80
+);
 
 
 
