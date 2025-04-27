@@ -174,6 +174,113 @@ SELECT PLAYERNO FROM PENALTIES
 WHERE AMOUNT <= 80
 );
 
+/*zu EMP-DEPT */
+
+/*5. Gesucht sind alle Mitarbeiter, deren Gehalt höher ist als das Durchschnittsgehalt
+ihrer Abteilung */
+
+SELECT * FROM EMP;
+
+SELECT DEPTNO,
+    AVG(SAL)
+FROM EMP
+GROUP BY DEPTNO;
+
+SELECT *
+FROM EMP E
+WHERE E.SAL > (
+SELECT 
+    AVG(S.SAL) Durchschnittsgehalt
+FROM EMP S
+WHERE S.DEPTNO = e.DEPTNO
+GROUP BY S.DEPTNO
+);
+
+WITH Avg_Salaries AS (
+  SELECT DEPTNO,
+         AVG(SAL) AS AVG_SAL
+  FROM EMP
+  GROUP BY DEPTNO
+)
+
+SELECT E.*
+FROM EMP E
+JOIN Avg_Salaries A
+  ON E.DEPTNO = A.DEPTNO
+WHERE E.SAL > A.AVG_SAL;
+
+/*
+6. Ermittlung aller Abteilungen, die mindestens einen Mitarbeiter haben
+*/
+
+SELECT * FROM EMP;
+SELECT DISTINCT DEPTNO FROM DEPT;
+
+SELECT DISTINCT(D.DEPTNO),
+        D.DNAME,
+        D.LOC
+FROM DEPT D
+JOIN EMP E
+ON E.DEPTNO = D.DEPTNO;
+
+SELECT DISTINCT D.DEPTNO,
+       D.DNAME,
+       D.LOC,
+       COUNT(*)
+FROM DEPT D
+JOIN EMP E
+ON E.DEPTNO = D.DEPTNO
+GROUP BY D.DEPTNO,D.DNAME,D.LOC
+HAVING COUNT(*) >= 1;
+
+/*7. Ausgabe aller Abteilungen, die mindestens einen Mitarbeiter aufweisen, der
+über 1000,- verdient*/
+
+SELECT * FROM EMP;
+
+
+SELECT DEPTNO
+FROM EMP
+--WHERE SAL > 1000
+GROUP BY DEPTNO
+HAVING MAX(SAL)>1000;
+
+SELECT DISTINCT DEPTNO
+FROM EMP
+WHERE SAL > 1000;
+
+/*8. Ausgabe aller Abteilungen, in der jeder Mitarbeiter mindestens 1000,- verdient*/
+
+SELECT * FROM EMP;
+SELECT * FROM DEPT;
+
+SELECT *
+FROM EMP
+WHERE SAL >= 1000;
+
+SELECT DEPTNO,DNAME
+FROM DEPT D
+WHERE NOT EXISTS(
+SELECT 1
+FROM EMP E 
+WHERE E.DEPTNO = D.DEPTNO
+AND E.SAL < 1000
+);
+
+SELECT D.DEPTNO, D.DNAME
+FROM DEPT D
+JOIN EMP E
+  ON D.DEPTNO = E.DEPTNO
+GROUP BY D.DEPTNO,D.DNAME
+HAVING MIN(E.SAL) >= 1000;
+
+SELECT * FROM EMP;
+
+SELECT DEPTNO
+FROM EMP
+GROUP BY DEPTNO
+HAVING MIN(SAL) >= 1000;
+
 
 
 
