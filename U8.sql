@@ -342,6 +342,155 @@ FROM SALCTE
 GROUP BY LVL
 ORDER BY LVL;
 
+--17.03.2025
+
+SELECT * FROM EMP;
+
+WITH AVG_SAL (EMPNO, MGR, SAL, LVL) AS (
+    SELECT 
+        EMPNO,
+        MGR,
+        SAL,
+        1 AS LVL
+    FROM EMP
+WHERE MGR IS NULL
+
+UNION ALL
     
+    SELECT 
+        E.EMPNO,
+        E.MGR,
+        E.SAL,
+        AVSA.LVL + 1
+    FROM EMP E
+    JOIN AVG_SAL AVSA ON AVSA.EMPNO = E.MGR 
+)
+SELECT * FROM AVG_SAL;
+
+WITH AVG_SAL (EMPNO, MGR, SAL, LVL) AS (
+    SELECT 
+        EMPNO,
+        MGR,
+        SAL,
+        1 AS LVL
+    FROM EMP
+
+WHERE MGR IN(7698,7782)
+    
+    UNION ALL
+    
+    SELECT 
+        E.EMPNO,
+        E.MGR,
+        E.SAL,
+        AVSA.LVL + 1
+    FROM EMP E
+    JOIN AVG_SAL AVSA ON AVSA.EMPNO = E.MGR 
+)
+SELECT * FROM AVG_SAL;
+
+WITH AVG_SAL (EMPNO, MGR, SAL, LVL) AS (
+    SELECT 
+        EMPNO,
+        MGR,
+        SAL,
+        1 AS LVL
+    FROM EMP
+
+WHERE MGR IN(7698,7782,7566)
+    
+    UNION ALL
+    
+    SELECT 
+        E.EMPNO,
+        E.MGR,
+        E.SAL,
+        AVSA.LVL + 1
+    FROM EMP E
+    JOIN AVG_SAL AVSA ON AVSA.EMPNO = E.MGR 
+)
+SELECT * FROM AVG_SAL;
+
+SELECT * FROM EMP WHERE EMPNO = 7782;
+
+WITH AVG_SAL (EMPNO, MGR, SAL, LVL) AS (
+    SELECT 
+        EMPNO,
+        MGR,
+        SAL,
+        1 AS LVL
+    FROM EMP
+    WHERE MGR IN (7698) OR MGR IS NULL
+
+    UNION ALL
+
+    SELECT 
+        E.EMPNO,
+        E.MGR,
+        E.SAL,
+        AVSA.LVL + 1 AS LVL
+    FROM EMP E
+    JOIN AVG_SAL AVSA ON E.MGR = AVSA.EMPNO 
+)
+SELECT * 
+FROM AVG_SAL;
+
+
+WITH AVG_SAL (EMPNO, MGR, SAL, LVL) AS (
+    SELECT 
+        EMPNO,
+        MGR,
+        SAL,
+        1 AS LVL
+    FROM EMP
+    -- Missing WHERE condition here will result in:
+    -- 1. All employees starting at level 1
+    -- 2. Potential duplication of employees in the recursive part
+    -- Typically, this would include: WHERE MGR IS NULL
+    UNION ALL --UNION ALL preserves duplicates (important for recursion)
+    
+    SELECT 
+        E.EMPNO,
+        E.MGR,
+        E.SAL,
+        AVSA.LVL + 1
+    FROM EMP E
+    JOIN AVG_SAL AVSA ON AVSA.EMPNO = E.MGR 
+)
+SELECT * FROM AVG_SAL;
+
+--Fakultat--
+SELECT 5 * 4 * 3 *2 * 1 FROM DUAL;
+
+-- 5! = 5 * 4! = 5 * (4 * 3!) = 5 * (4 * (3 * 2!)) = 5 * (4 * (3 * (2 * 1!))) 
+
+WITH FACTORIALCTE (NUM, FACTORIAL) AS (
+-- Anchor member
+SELECT 1, 1 FROM DUAL
+    
+UNION ALL
+-- Recursive member
+SELECT 
+    NUM + 1,
+    FACTORIAL * (NUM + 1)
+FROM FACTORIALCTE
+    WHERE NUM < 5
+)
+SELECT * FROM FACTORIALCTE;
+
+
+WITH COUNTCTE (NUM) AS (
+-- Anchor member
+SELECT 1 NUM
+FROM DUAL
+
+UNION ALL
+-- Recursive member
+SELECT 
+    NUM + 1
+FROM COUNTCTE
+    WHERE NUM < 5
+)
+SELECT * FROM COUNTCTE;
 
 
