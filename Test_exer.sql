@@ -1,6 +1,5 @@
 /*Example Test*/
 
--- ??????? ?? ?????????
 CREATE TABLE employees (
     emp_id NUMBER PRIMARY KEY,
     emp_name VARCHAR2(50),
@@ -9,7 +8,7 @@ CREATE TABLE employees (
     salary NUMBER
 );
 
--- ??????? ?? ????????
+
 CREATE TABLE products (
     product_id NUMBER PRIMARY KEY,
     category VARCHAR2(30),
@@ -17,7 +16,7 @@ CREATE TABLE products (
     price NUMBER
 );
 
--- ??????? ?? ????????
+
 CREATE TABLE sales (
     sale_id NUMBER PRIMARY KEY,
     emp_id NUMBER REFERENCES employees(emp_id),
@@ -325,3 +324,54 @@ JOIN sales s ON e.emp_id = s.emp_id
 GROUP BY e.emp_name
 HAVING COUNT(*) >= 10;
 
+/*Erstellen Sie eine Übersicht über Verkäufe:
+- Pro Jahr (aus sale_date)
+- Pro Kategorie
+- Gesamtumsatz
+- Anzahl der beteiligten Mitarbeiter 
+Verwenden Sie GROUPING SETS ((Jahr), (Kategorie), ())
+und UNION ALL mit Mitarbeitern ohne Verkäufe*/
+-- Teil 1: Verkäufe
+-- Teil 1: Verkäufe
+-- Teil 1: Verkäufe
+SELECT
+    TO_CHAR(s.sale_date, 'YYYY') AS jahr,
+    p.category,
+    SUM(p.price * s.quantity) AS umsatz,
+    COUNT(DISTINCT s.emp_id) AS anzahl_mitarbeiter
+FROM sales s
+JOIN products p ON p.product_id = s.product_id
+GROUP BY GROUPING SETS (
+    (TO_CHAR(s.sale_date, 'YYYY')),
+    (p.category),
+    ()
+)
+UNION ALL
+-- Teil 2: Mitarbeiter ohne Verkäufe
+SELECT
+    NULL AS jahr,
+    NULL AS category,
+    0 AS umsatz,
+    COUNT(*) AS anzahl_mitarbeiter
+FROM employees e
+WHERE NOT EXISTS (
+    SELECT 1 FROM sales s WHERE s.emp_id = e.emp_id
+);
+
+SELECT * FROM employees;
+SELECT * FROM products;
+SELECT * FROM sales;  
+
+SELECT 
+    e.emp_name AS Mitarbeitername,
+    NVL(SUM(s.quantity),0) AS Gesamtmenge,
+    ROUND(NVL(AVG(p.price),0),2) AS Durchschnittspreis,
+CASE
+    WHEN AVG(p.price) < 500 THEN 'Low'
+    WHEN AVG(p.price) BETWEEN 500 AND 1000 THEN 'Medium'
+    ELSE 'High'
+END AS kommentar
+FROM employees e
+LEFT JOIN sales s ON e.emp_id = s.emp_id
+LEFT JOIN products p ON p.product_id = s.product_id
+GROUP BY e.emp_name;
