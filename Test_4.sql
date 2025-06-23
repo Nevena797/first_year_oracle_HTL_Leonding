@@ -1,54 +1,10 @@
-/*
-Alle benötigten Dateien liegen auf \\edufs\testGall
-Bitte speichern Sie ausschließlich Dateien auf U:\ (und nichts lokal)
-*/
-
---Bitte setzen Sie hier (unter die jeweiligen Hochkomma) Ihre Daten ein:
-SELECT
-	' ' Name,
-	' ' Klasse,
-	' ' Datum
-FROM
-	dual;
-
---VORBEREITUNGEN	
-/*
-Erstellen Sie keine weiteren Datenbankobjekte, außer jenen, die in den 
-folgenden Angaben ausdrücklich erforderlich sind.
-
-Führen Sie die folgenden Skripte aus:
-dept_emp.sql
-*/
-
-
---AUFGABEN
-/*
-Fügen Sie Ihre Lösung immer gleich unter die Angabe in dieser Datei ein.
-Die erreichbaren Punkte sind pro Aufgabe angegeben. Sollte nichts angegeben
-sein, so erhalten Sie pro richtiger Antwort einen Punkt.
-Bei der Angabe ist manchmal eine Musterlösung als Orientierungshilfe angegeben.
-Sorgen Sie dafür, dass die Spaltenüberschriften identisch heißen wie
-in der Musterlösung.
-Sorgen Sie daf+r, dass das Format der angezeigten Werte identisch 
-wie in dieser Musterlösung ist.
-Sorgen Sie dafür, dass die Sortierreihenfolge der Sätze gleich der
-Sortierung in der Musterlösung ist.
-Antworten, die diese Bedigungen nicht erfüllen, erhalten 
-maximal die halbe Punktanzahl.
-Stellen Sie sicher, dass die gesamte Datei (auch mehrfach hintereindander) ohne 
-Fehler ausführbar ist.
-Wenn Sie einen Syntaxfehler nicht lösen können, dann kommentieren Sie 
-zumindest diesen Teil aus.
-Antworten, die nicht ausführbar sind, erhalten automatisch 0 Punkte.
-*/
-
 SELECT 1 Aufgabe FROM DUAL;
 /*
-Erläutern Sie ausführlich wofür das im Unterricht besprochene Akronym SQL steht.
-Inwiefern deckt sich die Langform dieses Begriffes mit der Realität?
+ErlÃ¤utern Sie ausfÃ¼hrlich wofÃ¼r das im Unterricht besprochene Akronym SQL steht.
+Inwiefern deckt sich die Langform dieses Begriffes mit der RealitÃ¤t?
 (2)
 */
-SQL steht für:Structured Query Language,(auf Deutsch: Strukturierte Abfragesprache)
+SQL steht fÃ¼r:Structured Query Language,(auf Deutsch: Strukturierte Abfragesprache)
 Structured Query Language
 
 
@@ -56,7 +12,7 @@ SELECT 2 Aufgabe FROM DUAL;
 /*
 Erstellen Sie eine SQL-Abfrage, wie folgt:
 Zeigen Sie die Team-Nummer (MATCHES.TEAMNO), Stadt (PLAYERS.TOWN),
-Spielername (PLAYERS.NAME) und die Summe aus gewonnenen, abzüglich 
+Spielername (PLAYERS.NAME) und die Summe aus gewonnenen, abzÃ¼glich 
 der verlorenen Spiele.
 Achten Sie auf die (Zwischen-)Summen.
 
@@ -162,7 +118,7 @@ SELECT 3 Aufgabe FROM DUAL;
 /*
 Erstellen Sie eine SQL-Abfrage, wie folgt:
 Zeigen Sie die Team-Nummer (MATCHES.TEAMNO), Stadt (PLAYERS.TOWN),
-Spielername (PLAYERS.NAME) und die Summe aus gewonnenen, abzüglich 
+Spielername (PLAYERS.NAME) und die Summe aus gewonnenen, abzÃ¼glich 
 der verlorenen Spiele.
 Achten Sie auf die (Zwischen-)Summen.
 
@@ -276,7 +232,7 @@ SELECT 4 Aufgabe FROM DUAL;
 /*
 Erstellen Sie eine SQL-Abfrage, wie folgt:
 Zeigen Sie die Team-Nummer (MATCHES.TEAMNO), Stadt (PLAYERS.TOWN),
-Spielername (PLAYERS.NAME) und die Summe aus gewonnenen, abzüglich 
+Spielername (PLAYERS.NAME) und die Summe aus gewonnenen, abzÃ¼glich 
 der verlorenen Spiele.
 Achten Sie auf die (Zwischen-)Summen.
 
@@ -485,10 +441,10 @@ SELECT 5 Aufgabe FROM DUAL;
 /*
 Erstellen Sie eine SQL-Abfrage, wie folgt:
 Zeigen Sie die Stadt (PLAYERS.TOWN), das Geburtsjahr des Spielers
-(PLAYERS.YEAR_OF_BIRTH) und die Summe aus gewonnenen, abzüglich 
+(PLAYERS.YEAR_OF_BIRTH) und die Summe aus gewonnenen, abzÃ¼glich 
 der verlorenen Spiele.
 Achten Sie auf die (Zwischen-)Summen.
-Achten Sie auf die Sortierreihenfolge der Sätze.
+Achten Sie auf die Sortierreihenfolge der SÃ¤tze.
 
 TOWN       YEAR_OF_BIRTH                                      WLDIFF
 ---------- ---------------------------------------------- ----------
@@ -565,7 +521,7 @@ Dauer der Anstellung (ergibt sich aus EMP.HIREDATE)
 in Jahren und Monaten (YM), Dauer der Anstellung in Tagen und
 Stunden (DH).
 Das Beispiel zeigt das Ergebnis, wenn die Abfrage am 16.6.2025 um
-19:45 ausgeführt wird und wird bei jeder Ausführung ein anderes 
+19:45 ausgefÃ¼hrt wird und wird bei jeder AusfÃ¼hrung ein anderes 
 Ergebnis liefern, weil sich Ihre Abfrage auf den aktuellen 
 Zeitstempel beziehen muss.
 Beachten Sie die Sortierung nach absteigendem Dienstalter.
@@ -608,12 +564,3 @@ SELECT
 FROM emp e
 ORDER BY e.hiredate ASC;  -- Dienstalter absteigend
 
-
-
-
-
-
---ABSCHLUß
-/*
-Speichern Sie diese Datei unter U:\
-*/
